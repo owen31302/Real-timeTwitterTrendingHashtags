@@ -55,8 +55,8 @@ object AverageTweetLength {
         
         totalChars.getAndAdd(rdd.reduce((x,y) => x + y))
 
-        if(count > maxChars.longValue()){
-          maxChars.getAndSet(count)
+        if(rdd.max() > maxChars.longValue()){
+          maxChars.getAndSet(rdd.max())
         }
 
         println("Total tweets: " + totalTweets.get() +
