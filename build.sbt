@@ -4,6 +4,15 @@ version := "1.0"
 
 scalaVersion := "2.11.8"
 
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}
+
+mainClass in (Compile, run) := Some("com.owen.sparkstreaming.AverageTweetLength")
+
+mainClass in (Compile, packageBin) := Some("com.owen.sparkstreaming.AverageTweetLength")
+
 libraryDependencies ++= {
   val sparkVer = "1.5.2"
   val twitterVer = "4.0.4"
@@ -18,3 +27,4 @@ libraryDependencies ++= {
     "org.apache.spark" %% "spark-streaming-twitter" % twitterStreamVer
   )
 }
+
