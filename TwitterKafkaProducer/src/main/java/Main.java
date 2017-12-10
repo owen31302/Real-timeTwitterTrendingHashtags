@@ -72,8 +72,6 @@ public class Main {
 
             public void onStatus(Status status) {
                 if(status.getUser().getLocation() != null) {
-                    System.out.println(status.getUser().getLocation());
-                    System.out.println("--------------------");
                     queue.offer(status);
                 }
             }
@@ -129,7 +127,7 @@ public class Main {
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
         Producer<String, String> producer = new KafkaProducer<String, String>(props);
-        int i = 0;
+//        int i = 0;
         int j = 0;
 
         // poll for new tweets in the queue. If new tweets are added, send them
@@ -139,10 +137,11 @@ public class Main {
 
             if (tweet == null) {
                 Thread.sleep(100);
-                 i++;
+//                 i++;
             } else {
                 System.out.println(tweet.getText());
-                producer.send(new ProducerRecord<String, String>("twitter", "1", tweet.getText()));
+                System.out.println("--------------------");
+                producer.send(new ProducerRecord<String, String>("twitter", Integer.toString(j++), tweet.getUser().getLocation()+"-------"+tweet.getText()));
             }
         }
 //         producer.close();
