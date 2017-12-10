@@ -55,11 +55,6 @@ public class Main {
 //        String[] arguments = args.clone();
 //        String[] keyWords = Arrays.copyOfRange(arguments, 5, arguments.length);
 
-        String consumerKey = "In3DRj1bOvgDTwPg6mOKT7b9h";
-        String consumerSecret = "n3H2uyQHNPeFpnKpoChhrjFejrwASOA2a8lPsAFEYKibCtFKin";
-        String accessToken = "2752212310-bN64fp1a0Dapil3JmRAuAwqz4rU5bk4Vdm3lpCh";
-        String accessTokenSecret = "uBWIlLfH48g9eDfddZVU8lHgmtRtQj9yM1fBouhnEOWKE";
-
 
         // Set twitter oAuth tokens in the configuration
         ConfigurationBuilder cb = new ConfigurationBuilder();
