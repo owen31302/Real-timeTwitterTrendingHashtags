@@ -1,3 +1,6 @@
+package com.owen.twitterkafkaproducer;
+
+
 import java.util.Arrays;
 import java.util.Properties;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -47,10 +50,10 @@ public class Main {
 //            return;
 //        }
 
-//        String consumerKey = args[0].toString();
-//        String consumerSecret = args[1].toString();
-//        String accessToken = args[2].toString();
-//        String accessTokenSecret = args[3].toString();
+        String consumerKey = args[0].toString();
+        String consumerSecret = args[1].toString();
+        String accessToken = args[2].toString();
+        String accessTokenSecret = args[3].toString();
 //        String topicName = args[4].toString();
 //        String[] arguments = args.clone();
 //        String[] keyWords = Arrays.copyOfRange(arguments, 5, arguments.length);
@@ -68,6 +71,7 @@ public class Main {
             public void onStatus(Status status) {
                 if(status.getUser().getLocation() != null) {
                     queue.offer(status);
+                    System.out.println(status);
                 }
             }
 
@@ -109,7 +113,7 @@ public class Main {
         // Thread.sleep(5000);
 
         // Add Kafka producer config settings
-        Properties props = new Properties();
+        /*Properties props = new Properties();
         props.put("metadata.broker.list", "localhost:9092");
         props.put("bootstrap.servers", "localhost:9092");
         props.put("acks", "all");
@@ -138,7 +142,7 @@ public class Main {
                 System.out.println("--------------------");
                 producer.send(new ProducerRecord<String, String>("twitter", Integer.toString(j++), tweet.getUser().getLocation()+"-------"+tweet.getText()));
             }
-        }
+        }*/
 //         producer.close();
 //         Thread.sleep(500);
 //         twitterStream.shutdown();
