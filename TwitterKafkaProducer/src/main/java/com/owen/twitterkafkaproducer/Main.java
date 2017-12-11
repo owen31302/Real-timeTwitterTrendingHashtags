@@ -1,6 +1,8 @@
 package com.owen.twitterkafkaproducer;
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.Arrays;
 import java.util.Properties;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -44,20 +46,36 @@ public class Main {
     public static void main(String[] args) throws Exception {
         final LinkedBlockingQueue<Status> queue = new LinkedBlockingQueue<Status>(1000);
 
-//        if (args.length < 4) {
-//            System.out.println(
-//                    "Usage: KafkaTwitterProducer <twitter-consumer-key> <twitter-consumer-secret> <twitter-access-token> <twitter-access-token-secret> <topic-name> <twitter-search-keywords>");
-//            return;
-//        }
+        if (args.length != 1) {
+            System.out.println("please put a argument of the path of twitter login info.");
+            return;
+        }
 
-        String consumerKey = args[0].toString();
-        String consumerSecret = args[1].toString();
-        String accessToken = args[2].toString();
-        String accessTokenSecret = args[3].toString();
-//        String topicName = args[4].toString();
-//        String[] arguments = args.clone();
-//        String[] keyWords = Arrays.copyOfRange(arguments, 5, arguments.length);
+        String consumerKey = "";
+        String consumerSecret = "";
+        String accessToken = "";
+        String accessTokenSecret = "";
 
+//        System.out.println(args[0]);
+        BufferedReader br = new BufferedReader(new FileReader(args[0]));
+        for(int i=0; i<4; i++) {
+          String line = br.readLine();
+          String[] word = line.split(",");
+          switch (i) {
+              case 0:
+                  consumerKey = word[1];
+                  break;
+              case 1:
+                  consumerSecret = word[1];
+                  break;
+              case 2:
+                  accessToken = word[1];
+                  break;
+              case 3:
+                  accessTokenSecret = word[1];
+                  break;
+          }
+        }
 
         // Set twitter oAuth tokens in the configuration
         ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -113,7 +131,7 @@ public class Main {
         // Thread.sleep(5000);
 
         // Add Kafka producer config settings
-        /*Properties props = new Properties();
+        Properties props = new Properties();
         props.put("metadata.broker.list", "localhost:9092");
         props.put("bootstrap.servers", "localhost:9092");
         props.put("acks", "all");
@@ -142,7 +160,7 @@ public class Main {
                 System.out.println("--------------------");
                 producer.send(new ProducerRecord<String, String>("twitter", Integer.toString(j++), tweet.getUser().getLocation()+"-------"+tweet.getText()));
             }
-        }*/
+        }
 //         producer.close();
 //         Thread.sleep(500);
 //         twitterStream.shutdown();
