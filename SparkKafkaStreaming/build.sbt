@@ -22,6 +22,7 @@ libraryDependencies ++= {
 //    "org.apache.spark" % "spark-streaming_2.11" % sparkVer % "provided" withSources(),
     "org.apache.spark" %% "spark-core" % sparkVer,
     "org.apache.spark" % "spark-streaming_2.11" % sparkVer,
+    "org.apache.spark" % "spark-streaming-kafka_2.11" % sparkVer,
     "org.twitter4j" % "twitter4j-core" % twitterVer,
     "org.twitter4j" % "twitter4j-stream" % twitterVer,
     "org.apache.spark" %% "spark-streaming-twitter" % twitterStreamVer
