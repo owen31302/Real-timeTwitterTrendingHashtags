@@ -2,6 +2,7 @@ project
 target
 .idea
 SparkKafkaStreaming/.idea
+SparkKafkaStreaming/checkpoint
 TwitterKafkaProducer/project
 TwitterKafkaProducer/target
 TwitterKafkaProducer/TwitterKafkaProducer.iml
