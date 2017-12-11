@@ -1,4 +1,8 @@
 project
 target
+.idea
+SparkKafkaStreaming/.idea
 TwitterKafkaProducer/project
 TwitterKafkaProducer/target
+TwitterKafkaProducer/TwitterKafkaProducer.iml
+TwitterKafkaProducer/src/main/resources/twitterLogin.txt
