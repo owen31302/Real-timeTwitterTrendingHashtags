@@ -33,9 +33,9 @@ object KafkaToSpark {
     // lines of data.
     val lines = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics).map(_._2)
 
-//    lines.foreachRDD((rdd, time) => {
-//
-//    })
+    lines.foreachRDD((rdd, time) => {
+      rdd.collect().foreach(println)
+    })
 
 
 //      // Extract the request field from each log line
