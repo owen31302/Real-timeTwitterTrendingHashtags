@@ -3,10 +3,13 @@ package com.owen.twitterkafkaproducer;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
 import twitter4j.*;
 import twitter4j.conf.*;
 
@@ -23,6 +26,7 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import kafka.producer.KeyedMessage;
+import java.util.TimeZone;
 
 /**
  * A Kafka Producer that gets tweets on certain keywords
@@ -79,8 +83,11 @@ public class Main {
 
         // Set twitter oAuth tokens in the configuration
         ConfigurationBuilder cb = new ConfigurationBuilder();
-        cb.setDebugEnabled(true).setOAuthConsumerKey(consumerKey).setOAuthConsumerSecret(consumerSecret)
-                .setOAuthAccessToken(accessToken).setOAuthAccessTokenSecret(accessTokenSecret);
+        cb.setDebugEnabled(true)
+                .setOAuthConsumerKey(consumerKey)
+                .setOAuthConsumerSecret(consumerSecret)
+                .setOAuthAccessToken(accessToken)
+                .setOAuthAccessTokenSecret(accessTokenSecret);
 
         // Create twitterstream using the configuration
         TwitterStream twitterStream = new TwitterStreamFactory(cb.build()).getInstance();
@@ -143,21 +150,20 @@ public class Main {
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
         Producer<String, String> producer = new KafkaProducer<String, String>(props);
-//        int i = 0;
-        int j = 0;
 
-        // poll for new tweets in the queue. If new tweets are added, send them
-        // to the topic
+        // poll for new tweets in the queue. If new tweets are added, send them to the topic
+
+        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        //dateFormatGmt.setTimeZone(TimeZone.getTimeZone("UTC"));
+
         while (true) {
             Status tweet = queue.poll();
-
             if (tweet == null) {
                 Thread.sleep(100);
-//                 i++;
             } else {
                 System.out.println(tweet.getText());
                 System.out.println("--------------------");
-                producer.send(new ProducerRecord<String, String>("twitter", Integer.toString(j++), tweet.getUser().getLocation()+"-------"+tweet.getText()));
+                producer.send(new ProducerRecord<>("twitter", dateFormatGmt.format(new Date()), tweet.getUser().getLocation()+"-------"+tweet.getText()));
             }
         }
 //         producer.close();

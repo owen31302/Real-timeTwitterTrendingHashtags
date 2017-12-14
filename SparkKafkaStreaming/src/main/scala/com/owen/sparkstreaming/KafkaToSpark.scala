@@ -17,13 +17,24 @@ object KafkaToSpark {
   def main(args: Array[String]) {
 
     // Create the context with a 1 second batch size
-    val sc = new SparkConf(true).set("spark.cassandra.connection.host", "127.0.0.1").setAppName("StreamingKafkaConsumer").setMaster("local[*]")
+    val sc = new SparkConf(true)
+    sc.set("spark.cassandra.connection.host", "127.0.0.1")
+    sc.setAppName("StreamingKafkaConsumer")
+    sc.setMaster("local[*]")
     val ssc = new StreamingContext(sc, Seconds(2))
     setupLogging()
 
 
     // hostname:port for Kafka brokers, not Zookeeper
-    val kafkaParams = Map("metadata.broker.list" -> "localhost:9092", "auto.offset.reset" -> "smallest")
+    val kafkaParams = Map(
+      "bootstrap.servers" -> "localhost:9092",
+      "group.id" -> "twitterTestingGroup",
+      "auto.offset.reset" -> "largest",
+      "zookeeper.sync.time.ms" -> "200",
+      "enable.auto.commit" -> "true",
+      "auto.commit.interval.ms" -> "100"
+    )
+
     // List of topics you want to listen for from Kafka
     val topics = List("twitter").toSet
     // Create our Kafka stream, which will contain (topic,message) pairs. We tack a
@@ -38,10 +49,8 @@ object KafkaToSpark {
     lines.foreachRDD((rdd, time) => {
       rdd.cache()
       println("Writing "+rdd.count()+" rows to Cassandra")
-      rdd.saveToCassandra("test", "twitter", SomeColumns("id", "tweet"))
+      rdd.saveToCassandra("twitterkeyspace", "twitter", SomeColumns("time", "tweet"))
     })
-
-
 
     // Kick it off
     ssc.checkpoint("./checkpoint/")
