@@ -21,4 +21,6 @@ libraryDependencies += "com.datastax.spark" %% "spark-cassandra-connector" % "2.
 libraryDependencies += "org.twitter4j" % "twitter4j-core" % "4.0.4"
 libraryDependencies += "org.twitter4j" % "twitter4j-stream" % "4.0.4"
 libraryDependencies += "org.apache.spark" %% "spark-streaming-twitter" % "1.6.3"
+libraryDependencies += "joda-time" % "joda-time" % "2.9.9"
+
 

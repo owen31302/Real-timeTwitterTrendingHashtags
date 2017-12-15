@@ -92,11 +92,11 @@ public class Main {
         // Create twitterstream using the configuration
         TwitterStream twitterStream = new TwitterStreamFactory(cb.build()).getInstance();
         StatusListener listener = new StatusListener() {
-
+//            int count  =0;
             public void onStatus(Status status) {
                 if(status.getUser().getLocation() != null) {
                     queue.offer(status);
-                    System.out.println(status);
+//                    System.out.println("!!! " + count++);
                 }
             }
 
@@ -124,8 +124,8 @@ public class Main {
         twitterStream.addListener(listener);
 
         // Filter keywords[]
-        FilterQuery query = new FilterQuery().track(new String[]{"#"});
-
+//        FilterQuery query = new FilterQuery().track(new String[]{"#"});
+        FilterQuery query = new FilterQuery(0, null, new String[] {"#"}, null, new String[] {"en"});
 //        double[][] location = new double[2][2];
 //        location[0][0] = -122.75;
 //        location[0][1] = 36.8;
@@ -155,13 +155,13 @@ public class Main {
 
         SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         //dateFormatGmt.setTimeZone(TimeZone.getTimeZone("UTC"));
-
+        int j = 0;
         while (true) {
             Status tweet = queue.poll();
             if (tweet == null) {
                 Thread.sleep(100);
             } else {
-                System.out.println(tweet.getText());
+                System.out.println(tweet.getUser().getLocation()+"---"+tweet.getText()+"---"+dateFormatGmt.format(new Date()));
                 System.out.println("--------------------");
                 producer.send(new ProducerRecord<>("twitter", dateFormatGmt.format(new Date()), tweet.getUser().getLocation()+"-------"+tweet.getText()));
             }
