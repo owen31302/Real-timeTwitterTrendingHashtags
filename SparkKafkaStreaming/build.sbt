@@ -9,9 +9,9 @@ assemblyMergeStrategy in assembly := {
   case x => MergeStrategy.first
 }
 
-mainClass in (Compile, run) := Some("com.owen.sparkstreaming.AverageTweetLength")
+mainClass in (Compile, run) := Some("com.owen.sparkstreaming.KafkaToSpark")
 
-mainClass in (Compile, packageBin) := Some("com.owen.sparkstreaming.AverageTweetLength")
+mainClass in (Compile, packageBin) := Some("com.owen.sparkstreaming.KafkaToSpark")
 
 libraryDependencies += "org.apache.spark" %% "spark-core" % "2.0.0"
 libraryDependencies += "org.apache.spark" %% "spark-streaming" % "2.0.0"
