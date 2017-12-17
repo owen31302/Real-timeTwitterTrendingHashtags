@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
 import twitter4j.*;
 import twitter4j.conf.*;
 
@@ -92,11 +91,12 @@ public class Main {
         // Create twitterstream using the configuration
         TwitterStream twitterStream = new TwitterStreamFactory(cb.build()).getInstance();
         StatusListener listener = new StatusListener() {
-//            int count  =0;
+            int count  =0;
             public void onStatus(Status status) {
                 if(status.getUser().getLocation() != null) {
                     queue.offer(status);
-//                    System.out.println("!!! " + count++);
+                    System.out.println("[" + count++ + "]-------------" );
+                    System.out.println(status);
                 }
             }
 

@@ -1,10 +1,13 @@
 name := "TwitterKafkaProducer"
 
-version := "1.0"
+// orgnization name (e.g., the package name of the project)
+organization := "com.owen.twitterkafkaproducer"
+
+version := "1.0-SNAPSHOT"
 
 javacOptions ++= Seq("-source", "1.8")
 
-
+mainClass in (Compile, run) := Some("com.owen.twitterkafkaproducer.Main")
 
 libraryDependencies ++= {
   val kafkaVer = "0.8.2.1"
