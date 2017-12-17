@@ -112,13 +112,13 @@ object KafkaToSpark {
       val finalTupleHelper = stateAndTag.map(line => (timestamp,line))
       val finalTupleWithoutYear = finalTupleHelper.groupByKey()
       val year = 2018
-      val finalTuple = finalTupleWithoutYear.map(line => (year, line))
+      val finalTuple = finalTupleWithoutYear.map(line => (year, line._1, line._2))
 
       // print the final RDD
       finalTuple.foreach(line => {
         println(line._1)
-        println(line._2._1 + ":")
-        for (state <- line._2._2) {
+        println(line._2 + ":")
+        for (state <- line._3) {
           println(state._1 + "'s the most popular tag : " + state._2)
         }
       })
