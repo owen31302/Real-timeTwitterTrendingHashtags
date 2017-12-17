@@ -7,3 +7,5 @@ TwitterKafkaProducer/project
 TwitterKafkaProducer/target
 TwitterKafkaProducer/TwitterKafkaProducer.iml
 TwitterKafkaProducer/src/main/resources/twitterLogin.txt
+server/node_modules
+server/client/node_modules

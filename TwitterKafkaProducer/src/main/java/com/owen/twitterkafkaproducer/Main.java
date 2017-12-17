@@ -95,7 +95,7 @@ public class Main {
             public void onStatus(Status status) {
                 if(status.getUser().getLocation() != null) {
                     queue.offer(status);
-                    System.out.println("[" + count++ + "]-------------" );
+                    // System.out.println("[" + count++ + "]-------------" );
                     System.out.println(status);
                 }
             }

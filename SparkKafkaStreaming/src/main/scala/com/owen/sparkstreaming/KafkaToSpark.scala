@@ -24,7 +24,7 @@ object KafkaToSpark {
     sc.set("spark.cassandra.connection.host", "127.0.0.1")
     sc.setAppName("StreamingKafkaConsumer")
     sc.setMaster("local[*]")
-    val ssc = new StreamingContext(sc, Seconds(300))
+    val ssc = new StreamingContext(sc, Seconds(60))
     setupLogging()
 
 
@@ -108,19 +108,23 @@ object KafkaToSpark {
       val timestamp = DateTime.now
 
       // map the time stamp and the states info
+
       val finalTupleHelper = stateAndTag.map(line => (timestamp,line))
-      val finalTuple = finalTupleHelper.groupByKey()
+      val finalTupleWithoutYear = finalTupleHelper.groupByKey()
+      val year = 2018
+      val finalTuple = finalTupleWithoutYear.map(line => (year, line))
 
       // print the final RDD
       finalTuple.foreach(line => {
-        println(line._1 + ":")
-        for (state <- line._2) {
+        println(line._1)
+        println(line._2._1 + ":")
+        for (state <- line._2._2) {
           println(state._1 + "'s the most popular tag : " + state._2)
         }
       })
 
       // save the final RDD into Cassandra
-      finalTuple.saveToCassandra("twitterkeyspace", "twitter", SomeColumns("time", "status"))
+      //finalTuple.saveToCassandra("twitterkeyspace", "twitter", SomeColumns("time", "status"))
     })
 
     // Kick it off

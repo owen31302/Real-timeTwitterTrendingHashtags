@@ -7,7 +7,7 @@ const client = new cassandra.Client({
 
 module.exports = () => {
   client.execute(
-    "SELECT * FROM twitter WHERE time = '2017-12-17 00:10:00+0000'",
+    "SELECT * FROM twitter",
     (err, result) => {
       if (!err) {
         console.log('Success!!');
