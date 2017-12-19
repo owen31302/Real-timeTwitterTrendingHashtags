@@ -3,7 +3,7 @@
 This project is to provide a visualization web app for the twitter hashtag trends around the world. 
 
 ## System Overview
-
+<img src='https://github.com/owen31302/Real-timeTwitterTrendingHashtags/blob/master/Readme/Powerpoint/SystemOverview.png?raw=true' title='Real-timeTwitterTrendingHashtags Overview' width='' alt='Real-timeTwitterTrendingHashtags Overview' />
 
 ## Authors
 Yu-Cheng Lin, TzuChien Wang, Xinzhu Cai
