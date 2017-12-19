@@ -1,29 +1,40 @@
 const cassandra = require('cassandra-driver');
 
 const client = new cassandra.Client({
+  // '13.57.254.47' || '127.0.0.1'
   contactPoints: ['127.0.0.1'],
   keyspace: 'twitterkeyspace'
 });
 
-module.exports = () => {
-  client.execute(
-    "SELECT * FROM twitter",
-    (err, result) => {
-      if (!err) {
-        console.log('Success!!');
-        // console.log(result);
-        const len = result.rowLength;
-        for (var i = 0; i < len; i++) {
-          const row = result.rows[i];
-          const status = row.status[0];
-          const state = status.get(0);
-          const tag = status.get(1).get(0);
-          const val = status.get(1).get(1);
-          console.log(state + ' ' + tag + ' ' + val);
-        }
-      } else {
-        console.log(err);
-      }
-    }
-  );
+module.exports = {
+  getLatestData: callback => {
+    client.execute('SELECT * FROM twitter LIMIT 1', async (err, result) => {
+      if (err) return console.error(err);
+
+      console.log('Retrieve data from cassandra successfully !');
+      // console.log(result);
+
+      const row = result.rows[0];
+      const year = row.get(0);
+      const time = row.get(1);
+      const status = row.get(2);
+
+      callback(status);
+    });
+  }
 };
+
+// module.exports = {
+//   getLatestData: callback => {
+//     client.execute(
+//       'SELECT * FROM twitter LIMIT 1',
+//       '',
+//       { prepare: true },
+//       async (err, result) => {
+//         if (err) return console.error(err);
+//         const row = result.first();
+//         callback(row);
+//       }
+//     );
+//   }
+// };

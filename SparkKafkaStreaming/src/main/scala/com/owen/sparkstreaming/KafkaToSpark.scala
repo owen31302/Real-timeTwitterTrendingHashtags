@@ -21,10 +21,10 @@ object KafkaToSpark {
 
     // Create the context with a 1 second batch size
     val sc = new SparkConf(true)
-    sc.set("spark.cassandra.connection.host", "127.0.0.1")
+    sc.set("spark.cassandra.connection.host", "127.0.0.1") //13.57.254.47
     sc.setAppName("StreamingKafkaConsumer")
     sc.setMaster("local[*]")
-    val ssc = new StreamingContext(sc, Seconds(60))
+    val ssc = new StreamingContext(sc, Seconds(60*30))
     setupLogging()
 
 
@@ -124,7 +124,7 @@ object KafkaToSpark {
       })
 
       // save the final RDD into Cassandra
-      //finalTuple.saveToCassandra("twitterkeyspace", "twitter", SomeColumns("time", "status"))
+      finalTuple.saveToCassandra("twitterkeyspace", "twitter", SomeColumns("year", "time", "status"))
     })
 
     // Kick it off

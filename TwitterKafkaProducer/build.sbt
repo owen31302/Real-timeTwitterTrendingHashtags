@@ -5,6 +5,8 @@ organization := "com.owen.twitterkafkaproducer"
 
 version := "1.0-SNAPSHOT"
 
+scalaVersion := "2.11.8"
+
 javacOptions ++= Seq("-source", "1.8")
 
 mainClass in (Compile, run) := Some("com.owen.twitterkafkaproducer.Main")
